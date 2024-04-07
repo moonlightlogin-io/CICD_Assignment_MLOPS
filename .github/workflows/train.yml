@@ -5,6 +5,11 @@ on:
     branches: 
       - '*'
 
+env:
+  IMAGE_NAME: mlops_cicd
+  REGISTRY: docker.io
+  TAG: cicd
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,5 +21,10 @@ jobs:
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        password: ${{ secrets.DOCKER_PAWD }}
 
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t ${IMAGE_NAME} .
+        docker tag ${IMAGE_NAME} ${REGISTRY}/${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${TAG}
+        docker push ${REGISTRY}/${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${TAG}

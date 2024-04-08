@@ -17,3 +17,4 @@ model = LogisticRegression(max_iter=1000, random_state=42).fit(X_scaled, y)
 
 with open("model.pkl", 'wb') as f:
     pickle.dump(model, f)
+    

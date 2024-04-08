@@ -35,17 +35,15 @@ jobs:
         run: echo "Successful login!!!"
 
       - name: Pull Docker image
-        run: docker pull ${REGISTRY}/${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${TAG}
+        run: docker pull chandnia/mlops_cicd:cicd)
 
       - name: Testing this step
         run: echo "The pull is success!!!"
 
-      - name: Pull and Run the Docker Image
-        run: |
-          score=$(docker run --rm  ${REGISTRY}/${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${TAG})
-          if (( $(echo "$score > 0.50" | bc -l) )); then
-            echo "Test passed"
-          else
-            echo "Test failed"
-            exit 1
-          fi
+      - name: Run the Docker Image
+  
+        run:  |
+                OUTPUT=$(docker run chandnia/mlops_cicd:cicd)
+                echo "Score:"
+                echo "$OUTPUT"
+                if [[ `echo "$OUTPUT 0.50" | awk '{print ($1 < $2)}'` == 1 ]]; then echo "Insufficient Accuracy" && exit 1; fi

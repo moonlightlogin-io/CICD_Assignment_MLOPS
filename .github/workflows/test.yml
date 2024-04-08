@@ -40,7 +40,7 @@ jobs:
       - name: Testing this step
         run: echo "The pull is success!!!"
 
-      - name: Run the Docker Image
+      - name: Run the Docker Image and check Score
   
         run:  |
                 OUTPUT=$(docker run chandnia/mlops_cicd:cicd)
